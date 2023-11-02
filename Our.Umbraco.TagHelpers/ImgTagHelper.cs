@@ -220,7 +220,7 @@ namespace Our.Umbraco.TagHelpers
                 #region Autogenerate alt text if unspecfied
                 if (string.IsNullOrWhiteSpace(ImgAlt))
                 {
-                    output.Attributes.Add("alt", GetImageAltText(FileSource));
+                    output.Attributes.Add("alt", "");
                 }
                 else
                 {
@@ -458,33 +458,6 @@ namespace Our.Umbraco.TagHelpers
         }
 
         #region Private Methods
-        private string GetImageAltText(string url)
-        {
-            try
-            {
-                if (url.Contains("://"))
-                {
-                    var uri = new Uri(url);
-                    return Path.GetFileNameWithoutExtension(uri.LocalPath);
-                }
-                else
-                {
-                    var baseUri = new Uri(Request.GetDisplayUrl());
-                    Uri uri;
-                    if (!Uri.TryCreate(url, UriKind.Absolute, out uri))
-                        uri = new Uri(baseUri, url);
-
-                    return Path.GetFileNameWithoutExtension(uri.LocalPath);
-                }
-
-            }
-            catch (Exception)
-            {
-
-            }
-
-            return "";
-        }
         private string GetImageAltText(IPublishedContent image)
         {
             try
@@ -496,10 +469,6 @@ namespace Our.Umbraco.TagHelpers
                 if (image.HasProperty(alias) && image.HasValue(alias))
                 {
                     return image.Value<string>(alias);
-                }
-                else
-                {
-                    return image.Name;
                 }
             }
             catch (Exception)
