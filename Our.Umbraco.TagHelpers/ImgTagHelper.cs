@@ -329,9 +329,9 @@ namespace Our.Umbraco.TagHelpers
             // The configuration allows us to define whether images are configured "mobile first". This simply alternates between min-width & max-width media queries.
             var imageSizes = GetImageSizes(MediaItem != null);
 
-            // Avoid rendering a WebP alternative if the image is a GIF
-            var imageFormat = MediaItem != null ? Path.GetExtension(MediaItem.Url()) : Path.GetExtension(FileSource);
-            var renderWebP = imageFormat?.ToLower() != ".gif";
+            // Only render a WebP alternative if the image is a JPEG or PNG
+            var imageFormat = MediaItem != null ? Path.GetExtension(MediaItem.Url()) : Path.GetExtension(FileSource)?.ToLower();
+            var renderWebP = imageFormat == ".jpg" || imageFormat == ".jpeg" || imageFormat == ".png";
 
             if (imageSizes?.Any() == true)
             {
