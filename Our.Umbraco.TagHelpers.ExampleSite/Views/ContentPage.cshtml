@@ -1,0 +1,51 @@
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<ContentPage>
+
+@{
+    Layout = "Layout.cshtml";
+
+	// var altText = Model.ImageTest.Value<string>("altText");
+}
+
+<main id="maincontent" class="page page--content">
+	<our-img
+        media-item="@Model.ImageTest"
+        class="image"
+		abovethefold="true"
+
+        width="200"
+		height="100"
+
+		width--mobile-small="320"
+		height--mobile-small="160"
+
+		width--mobile="375"
+		height--mobile="190"
+
+		width--mobile-large="425"
+		height--mobile-large="220"
+
+		width--tablet-small="600"
+		height--tablet-small="300"
+
+		width--tablet="768"
+		height--tablet="384"
+
+		width--tablet-large="980"
+		height--tablet-large="490"
+
+		width--desktop-small="1024"
+		height--desktop-small="512"
+
+		width--desktop="1280"
+		height--desktop="640"
+
+		width--desktop-large="1440"
+		height--desktop-large="720"
+
+		width--desktop-xlarge="1920"
+		height--desktop-xlarge="960"
+
+		width--desktop-xxlarge="2560"
+		height--desktop-xxlarge="1280"
+    />
+</main>
