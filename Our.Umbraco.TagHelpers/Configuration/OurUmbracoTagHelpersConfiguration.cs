@@ -53,11 +53,17 @@ namespace Our.Umbraco.TagHelpers.Configuration
     }
     public class MediaQuerySizes
     {
-        public int Small { get; set; } = 576;
-        public int Medium { get; set; } = 768;
-        public int Large { get; set; } = 992;
-        public int ExtraLarge { get; set; } = 1200;
-        public int ExtraExtraLarge { get; set; } = 1400;
+        public int MobileSmall { get; set; } = 320;
+        public int Mobile { get; set; } = 375;
+        public int MobileLarge { get; set; } = 425;
+        public int TabletSmall { get; set; } = 600;
+        public int Tablet { get; set; } = 768;
+        public int TabletLarge { get; set; } = 980;
+        public int DesktopSmall { get; set; } = 1024;
+        public int Desktop { get; set; } = 1280;
+        public int DesktopLarge { get; set; } = 1440;
+        public int DesktopXLarge { get; set; } = 1920;
+        public int DesktopXXLarge { get; set; } = 2200;
     }
 
     public class SelfHostTagHelperConfiguration

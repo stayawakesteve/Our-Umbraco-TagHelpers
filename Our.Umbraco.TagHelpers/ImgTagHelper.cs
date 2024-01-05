@@ -58,38 +58,74 @@ namespace Our.Umbraco.TagHelpers
         [HtmlAttributeName("width")]
         public int ImgWidth { get; set; }
 
-        [HtmlAttributeName("width--s")]
-        public int ImgWidthSmall { get; set; }
+        [HtmlAttributeName("width--mobile-small")]
+        public int ImgWidthMobileSmall { get; set; }
 
-        [HtmlAttributeName("width--m")]
-        public int ImgWidthMedium { get; set; }
+        [HtmlAttributeName("width--mobile")]
+        public int ImgWidthMobile { get; set; }
 
-        [HtmlAttributeName("width--l")]
-        public int ImgWidthLarge { get; set; }
+        [HtmlAttributeName("width--mobile-large")]
+        public int ImgWidthMobileLarge { get; set; }
 
-        [HtmlAttributeName("width--xl")]
-        public int ImgWidthExtraLarge { get; set; }
+        [HtmlAttributeName("width--tablet-small")]
+        public int ImgWidthTabletSmall { get; set; }
 
-        [HtmlAttributeName("width--xxl")]
-        public int ImgWidthExtraExtraLarge { get; set; }
+        [HtmlAttributeName("width--tablet")]
+        public int ImgWidthTablet { get; set; }
+
+        [HtmlAttributeName("width--tablet-large")]
+        public int ImgWidthTabletLarge { get; set; }
+
+        [HtmlAttributeName("width--desktop-small")]
+        public int ImgWidthDesktopSmall { get; set; }
+
+        [HtmlAttributeName("width--desktop")]
+        public int ImgWidthDesktop { get; set; }
+
+        [HtmlAttributeName("width--desktop-large")]
+        public int ImgWidthDesktopLarge { get; set; }
+
+        [HtmlAttributeName("width--desktop-xlarge")]
+        public int ImgWidthDesktopExtraLarge { get; set; }
+
+        [HtmlAttributeName("width--desktop-xxlarge")]
+        public int ImgWidthDesktopExtraExtraLarge { get; set; }
 
         [HtmlAttributeName("height")]
         public int ImgHeight { get; set; }
 
-        [HtmlAttributeName("height--s")]
-        public int ImgHeightSmall { get; set; }
+        [HtmlAttributeName("height--mobile-small")]
+        public int ImgHeightMobileSmall { get; set; }
 
-        [HtmlAttributeName("height--m")]
-        public int ImgHeightMedium { get; set; }
+        [HtmlAttributeName("height--mobile")]
+        public int ImgHeightMobile { get; set; }
 
-        [HtmlAttributeName("height--l")]
-        public int ImgHeightLarge { get; set; }
+        [HtmlAttributeName("height--mobile-large")]
+        public int ImgHeightMobileLarge { get; set; }
 
-        [HtmlAttributeName("height--xl")]
-        public int ImgHeightExtraLarge { get; set; }
+        [HtmlAttributeName("height--tablet-small")]
+        public int ImgHeightTabletSmall { get; set; }
 
-        [HtmlAttributeName("height--xxl")]
-        public int ImgHeightExtraExtraLarge { get; set; }
+        [HtmlAttributeName("height--tablet")]
+        public int ImgHeightTablet { get; set; }
+
+        [HtmlAttributeName("height--tablet-large")]
+        public int ImgHeightTabletLarge { get; set; }
+
+        [HtmlAttributeName("height--desktop-small")]
+        public int ImgHeightDesktopSmall { get; set; }
+
+        [HtmlAttributeName("height--desktop")]
+        public int ImgHeightDesktop { get; set; }
+
+        [HtmlAttributeName("height--desktop-large")]
+        public int ImgHeightDesktopLarge { get; set; }
+
+        [HtmlAttributeName("height--desktop-xlarge")]
+        public int ImgHeightDesktopExtraLarge { get; set; }
+
+        [HtmlAttributeName("height--desktop-xxlarge")]
+        public int ImgHeightDesktopExtraExtraLarge { get; set; }
 
         [HtmlAttributeName("cropalias")]
         public string ImgCropAlias { get; set; }
@@ -339,11 +375,17 @@ namespace Our.Umbraco.TagHelpers
                     {
                         var minWidth = size.ScreenSize switch
                         {
-                            OurScreenSize.ExtraExtraLarge => _globalSettings.OurImg.MediaQueries.ExtraExtraLarge,
-                            OurScreenSize.ExtraLarge => _globalSettings.OurImg.MediaQueries.ExtraLarge,
-                            OurScreenSize.Large => _globalSettings.OurImg.MediaQueries.Large,
-                            OurScreenSize.Medium => _globalSettings.OurImg.MediaQueries.Medium,
-                            OurScreenSize.Small => _globalSettings.OurImg.MediaQueries.Small,
+                            OurScreenSize.DesktopXXLarge => _globalSettings.OurImg.MediaQueries.DesktopXXLarge,
+                            OurScreenSize.DesktopXLarge => _globalSettings.OurImg.MediaQueries.DesktopXLarge,
+                            OurScreenSize.DesktopLarge => _globalSettings.OurImg.MediaQueries.DesktopLarge,
+                            OurScreenSize.Desktop => _globalSettings.OurImg.MediaQueries.Desktop,
+                            OurScreenSize.DesktopSmall => _globalSettings.OurImg.MediaQueries.DesktopSmall,
+                            OurScreenSize.TabletLarge => _globalSettings.OurImg.MediaQueries.TabletLarge,
+                            OurScreenSize.Tablet => _globalSettings.OurImg.MediaQueries.Tablet,
+                            OurScreenSize.TabletSmall => _globalSettings.OurImg.MediaQueries.TabletSmall,
+                            OurScreenSize.MobileLarge => _globalSettings.OurImg.MediaQueries.MobileLarge,
+                            OurScreenSize.Mobile => _globalSettings.OurImg.MediaQueries.Mobile,
+                            OurScreenSize.MobileSmall => _globalSettings.OurImg.MediaQueries.MobileSmall,
                             _ => 0
                         };
 
@@ -394,11 +436,17 @@ namespace Our.Umbraco.TagHelpers
                 {
                     var minWidth = size.ScreenSize switch
                     {
-                        OurScreenSize.ExtraExtraLarge => _globalSettings.OurImg.MediaQueries.ExtraExtraLarge,
-                        OurScreenSize.ExtraLarge => _globalSettings.OurImg.MediaQueries.ExtraLarge,
-                        OurScreenSize.Large => _globalSettings.OurImg.MediaQueries.Large,
-                        OurScreenSize.Medium => _globalSettings.OurImg.MediaQueries.Medium,
-                        OurScreenSize.Small => _globalSettings.OurImg.MediaQueries.Small,
+                        OurScreenSize.DesktopXXLarge => _globalSettings.OurImg.MediaQueries.DesktopXXLarge,
+                        OurScreenSize.DesktopXLarge => _globalSettings.OurImg.MediaQueries.DesktopXLarge,
+                        OurScreenSize.DesktopLarge => _globalSettings.OurImg.MediaQueries.DesktopLarge,
+                        OurScreenSize.Desktop => _globalSettings.OurImg.MediaQueries.Desktop,
+                        OurScreenSize.DesktopSmall => _globalSettings.OurImg.MediaQueries.DesktopSmall,
+                        OurScreenSize.TabletLarge => _globalSettings.OurImg.MediaQueries.TabletLarge,
+                        OurScreenSize.Tablet => _globalSettings.OurImg.MediaQueries.Tablet,
+                        OurScreenSize.TabletSmall => _globalSettings.OurImg.MediaQueries.TabletSmall,
+                        OurScreenSize.MobileLarge => _globalSettings.OurImg.MediaQueries.MobileLarge,
+                        OurScreenSize.Mobile => _globalSettings.OurImg.MediaQueries.Mobile,
+                        OurScreenSize.MobileSmall => _globalSettings.OurImg.MediaQueries.MobileSmall,
                         _ => 0
                     };
 
@@ -506,25 +554,49 @@ namespace Our.Umbraco.TagHelpers
             {
                 imageSizes.Add(isMedia ? new OurImageSize(Enums.OurScreenSize.Default, ImgWidth, ImgHeight, ImgCropAlias) : new OurImageSize(Enums.OurScreenSize.Default, ImgWidth, ImgHeight));
             }
-            if(ImgWidthSmall > 0)
+            if(ImgWidthMobileSmall > 0)
             {
-                imageSizes.Add(isMedia ? new OurImageSize(Enums.OurScreenSize.Small, ImgWidthSmall, ImgHeightSmall, ImgCropAliasSmall) : new OurImageSize(Enums.OurScreenSize.Small, ImgWidthSmall, ImgHeightSmall));
+                imageSizes.Add(isMedia ? new OurImageSize(Enums.OurScreenSize.MobileSmall, ImgWidthMobileSmall, ImgHeightMobileSmall, ImgCropAliasSmall) : new OurImageSize(Enums.OurScreenSize.MobileSmall, ImgWidthMobileSmall, ImgHeightMobileSmall));
             }
-            if(ImgWidthMedium > 0)
+            if(ImgWidthMobile > 0)
             {
-                imageSizes.Add(isMedia ? new OurImageSize(Enums.OurScreenSize.Medium, ImgWidthMedium, ImgHeightMedium, ImgCropAliasMedium) : new OurImageSize(Enums.OurScreenSize.Medium, ImgWidthMedium, ImgHeightMedium));
+                imageSizes.Add(isMedia ? new OurImageSize(Enums.OurScreenSize.Mobile, ImgWidthMobile, ImgHeightMobile, ImgCropAliasSmall) : new OurImageSize(Enums.OurScreenSize.Mobile, ImgWidthMobile, ImgHeightMobile));
             }
-            if(ImgWidthLarge > 0)
+            if(ImgWidthMobileLarge > 0)
             {
-                imageSizes.Add(isMedia ? new OurImageSize(Enums.OurScreenSize.Large, ImgWidthLarge, ImgHeightLarge, ImgCropAliasLarge) : new OurImageSize(Enums.OurScreenSize.Large, ImgWidthLarge, ImgHeightLarge));
+                imageSizes.Add(isMedia ? new OurImageSize(Enums.OurScreenSize.MobileLarge, ImgWidthMobileLarge, ImgHeightMobileLarge, ImgCropAliasSmall) : new OurImageSize(Enums.OurScreenSize.MobileLarge, ImgWidthMobileLarge, ImgHeightMobileLarge));
             }
-            if(ImgWidthExtraLarge > 0)
+            if(ImgWidthTabletSmall > 0)
             {
-                imageSizes.Add(isMedia ? new OurImageSize(Enums.OurScreenSize.ExtraLarge, ImgWidthExtraLarge, ImgHeightExtraLarge, ImgCropAliasExtraLarge) : new OurImageSize(Enums.OurScreenSize.ExtraLarge, ImgWidthExtraLarge, ImgHeightExtraLarge));
+                imageSizes.Add(isMedia ? new OurImageSize(Enums.OurScreenSize.TabletSmall, ImgWidthTabletSmall, ImgHeightTabletSmall, ImgCropAliasMedium) : new OurImageSize(Enums.OurScreenSize.TabletSmall, ImgWidthTabletSmall, ImgHeightTabletSmall));
             }
-            if(ImgWidthExtraExtraLarge > 0)
+            if(ImgWidthTablet > 0)
             {
-                imageSizes.Add(isMedia ? new OurImageSize(Enums.OurScreenSize.ExtraExtraLarge, ImgWidthExtraExtraLarge, ImgHeightExtraExtraLarge, ImgCropAliasExtraExtraLarge) : new OurImageSize(Enums.OurScreenSize.ExtraExtraLarge, ImgWidthExtraExtraLarge, ImgHeightExtraExtraLarge));
+                imageSizes.Add(isMedia ? new OurImageSize(Enums.OurScreenSize.Tablet, ImgWidthTablet, ImgHeightTablet, ImgCropAliasMedium) : new OurImageSize(Enums.OurScreenSize.Tablet, ImgWidthTablet, ImgHeightTablet));
+            }
+            if(ImgWidthTabletLarge > 0)
+            {
+                imageSizes.Add(isMedia ? new OurImageSize(Enums.OurScreenSize.TabletLarge, ImgWidthTabletLarge, ImgHeightTabletLarge, ImgCropAliasMedium) : new OurImageSize(Enums.OurScreenSize.TabletLarge, ImgWidthTabletLarge, ImgHeightTabletLarge));
+            }
+            if(ImgWidthDesktopSmall > 0)
+            {
+                imageSizes.Add(isMedia ? new OurImageSize(Enums.OurScreenSize.DesktopSmall, ImgWidthDesktopSmall, ImgHeightDesktopSmall, ImgCropAliasMedium) : new OurImageSize(Enums.OurScreenSize.DesktopSmall, ImgWidthDesktopSmall, ImgHeightDesktopSmall));
+            }
+            if(ImgWidthDesktop > 0)
+            {
+                imageSizes.Add(isMedia ? new OurImageSize(Enums.OurScreenSize.Desktop, ImgWidthDesktop, ImgHeightDesktop, ImgCropAliasMedium) : new OurImageSize(Enums.OurScreenSize.Desktop, ImgWidthDesktop, ImgHeightDesktop));
+            }
+            if(ImgWidthDesktopLarge > 0)
+            {
+                imageSizes.Add(isMedia ? new OurImageSize(Enums.OurScreenSize.DesktopLarge, ImgWidthDesktopLarge, ImgHeightDesktopLarge, ImgCropAliasLarge) : new OurImageSize(Enums.OurScreenSize.DesktopLarge, ImgWidthDesktopLarge, ImgHeightDesktopLarge));
+            }
+            if(ImgWidthDesktopExtraLarge > 0)
+            {
+                imageSizes.Add(isMedia ? new OurImageSize(Enums.OurScreenSize.DesktopXLarge, ImgWidthDesktopExtraLarge, ImgHeightDesktopExtraLarge, ImgCropAliasExtraLarge) : new OurImageSize(Enums.OurScreenSize.DesktopXLarge, ImgWidthDesktopExtraLarge, ImgHeightDesktopExtraLarge));
+            }
+            if(ImgWidthDesktopExtraExtraLarge > 0)
+            {
+                imageSizes.Add(isMedia ? new OurImageSize(Enums.OurScreenSize.DesktopXXLarge, ImgWidthDesktopExtraExtraLarge, ImgHeightDesktopExtraExtraLarge, ImgCropAliasExtraExtraLarge) : new OurImageSize(Enums.OurScreenSize.DesktopXXLarge, ImgWidthDesktopExtraExtraLarge, ImgHeightDesktopExtraExtraLarge));
             }
 
             return imageSizes;

@@ -9,10 +9,16 @@ namespace Our.Umbraco.TagHelpers.Enums
     public enum OurScreenSize
     {
         Default = 0,
-        Small = 100,
-        Medium = 200,
-        Large = 300,
-        ExtraLarge = 400,
-        ExtraExtraLarge = 500
+        MobileSmall = 100,
+        Mobile = 200,
+        MobileLarge = 300,
+        TabletSmall = 400,
+        Tablet = 500,
+        TabletLarge = 600,
+        DesktopSmall = 700,
+        Desktop = 800,
+        DesktopLarge = 900,
+        DesktopXLarge = 1000,
+        DesktopXXLarge = 1100
     }
 }

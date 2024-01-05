@@ -503,17 +503,29 @@ Properties appended with s, m, l, xl & xxl translate to screen widths defined by
 - `class` - Native CSS class property.
 - `abovethefold` - Set to `true` if the image typically appears on screen during inital page load to raise its page load lifecycle priority level.
 - `width` - Native width property. Use in conjunction with the `height` property.
-- `width--s` - Image width for small screens. Use in conjunction with the `height--s` property.
-- `width--m` - Image width for medium screens. Use in conjunction with the `height--m` property.
-- `width--l` - Image width for large screens. Use in conjunction with the `height--l` property.
-- `width--xl` - Image width for extra large screens. Use in conjunction with the `height--xl` property.
-- `width--xxl` - Image width for extra extra large screens. Use in conjunction with the `height--xxl` property.
+- `width--mobile-small` - Image width for small mobile screens. Use in conjunction with the `height--mobile-small` property.
+- `width--mobile` - Image width for mobile screens. Use in conjunction with the `height--mobile` property.
+- `width--mobile-large` - Image width for large mobile screens. Use in conjunction with the `height--mobile-large` property.
+- `width--tablet-small` - Image width for small tablet screens. Use in conjunction with the `height--tablet-small` property.
+- `width--tablet` - Image width for tablet screens. Use in conjunction with the `height--tablet` property.
+- `width--tablet-large` - Image width for large tablet screens. Use in conjunction with the `height--tablet-large` property.
+- `width--desktop-small` - Image width for small desktop screens. Use in conjunction with the `height--desktop-small` property.
+- `width--desktop` - Image width for desktop screens. Use in conjunction with the `height--desktop` property.
+- `width--desktop-large` - Image width for large desktop screens. Use in conjunction with the `height--desktop-large` property.
+- `width--desktop-xlarge` - Image width for extra large desktop screens. Use in conjunction with the `height--desktop-xlarge` property.
+- `width--desktop-xxlarge` - Image width for extra extra large desktop screens. Use in conjunction with the `height--desktop-xxlarge` property.
 - `height` - Native height property. Use in conjunction with the `width` property.
-- `height--s` - Image height for small screens. Use in conjunction with the `width--s` property.
-- `height--m` - Image height for medium screens. Use in conjunction with the `width--m` property.
-- `height--l` - Image height for large screens. Use in conjunction with the `width--l` property.
-- `height--xl` - Image height for extra large screens. Use in conjunction with the `width--xl` property.
-- `height--xxl` - Image height for extra extra large screens. Use in conjunction with the `width--xxl` property.
+- `height--mobile-small` - Image height for small mobile screens. Use in conjunction with the `width--mobile-small` property.
+- `height--mobile` - Image height for mobile screens. Use in conjunction with the `width--mobile` property.
+- `height--mobile-large` - Image height for large mobile screens. Use in conjunction with the `width--mobile-large` property.
+- `height--tablet-small` - Image height for small tablet screens. Use in conjunction with the `width--tablet-small` property.
+- `height--tablet` - Image height for tablet screens. Use in conjunction with the `width--tablet` property.
+- `height--tablet-large` - Image height for large tablet screens. Use in conjunction with the `width--tablet-large` property.
+- `height--desktop-small` - Image height for small desktop screens. Use in conjunction with the `width--desktop-small` property.
+- `height--desktop` - Image height for desktop screens. Use in conjunction with the `width--desktop` property.
+- `height--desktop-large` - Image height for large desktop screens. Use in conjunction with the `width--desktop-large` property.
+- `height--desktop-xlarge` - Image height for extra large desktop screens. Use in conjunction with the `width--desktop-xlarge` property.
+- `height--desktop-xxlarge` - Image height for extra extra large desktop screens. Use in conjunction with the `width--desktop-xxlarge` property.
 - `cropalias` - Crop alias to be used by default.
 - `cropalias--s` - Crop alias to be used on small screens.
 - `cropalias--m` - Crop alias to be used on medium screens.
@@ -530,11 +542,17 @@ Applying any of the below configurations within your `appsettings.json` file wil
         "OurIMG": {
           "MobileFirst": true, // Alternates between min-width & max-width media queries. When enabled, min-width is used.
           "MediaQueries": { // Window breakpoint widths in pixels
-            "Small": 576,
-            "Medium": 768,
-            "Large": 992,
-            "ExtraLarge": 1200,
-            "ExtraExtraLarge": 1400
+            "MobileSmall": 320,
+            "Mobile": 375,
+            "MobileLarge": 425,
+            "TabletSmall": 600,
+            "Tablet": 768,
+            "TabletLarge": 980,
+            "DesktopSmall": 1024,
+            "Desktop": 1280,
+            "DesktopLarge": 1440,
+            "DesktopXLarge": 1920,
+            "DesktopXXLarge": 2200
           },
           "UseNativeLazyLoading": true, // If enabled, loading="true" is used. If disabled, the 'src' property is replaced with 'data-src' which most lazy loading JavaScript libraries will interpret and lazy load the image.
           "LazyLoadCssClass": "lazyload", // If 'UseNativeLazyLoading' is disabled, the class property is given an additional class for JavaScript libraries to target. Note: 'lazyload' is used by the lazysizes library.
