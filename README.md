@@ -555,6 +555,7 @@ Applying any of the below configurations within your `appsettings.json` file wil
             "DesktopXXLarge": 2200
           },
           "UseNativeLazyLoading": true, // If enabled, loading="true" is used. If disabled, the 'src' property is replaced with 'data-src' which most lazy loading JavaScript libraries will interpret and lazy load the image.
+          "UseWebP": true, // Whether images should be served with WebP sources. Defaults to true.
           "LazyLoadCssClass": "lazyload", // If 'UseNativeLazyLoading' is disabled, the class property is given an additional class for JavaScript libraries to target. Note: 'lazyload' is used by the lazysizes library.
           "LazyLoadPlaceholder": "SVG", // If 'UseNativeLazyLoading' is disabled, the 'src' property is given either an empty SVG (if value is "SVG") or a lower quality version of the original image is used (if value is "LowQualityImage")
           "LazyLoadPlaceholderLowQualityImageQuality": 5, // If 'UseNativeLazyLoading' is disabled and 'LazyLoadPlaceholder' is "LowQualityImage", what image quality should be rendered. Numeric values 1-100 accepted.

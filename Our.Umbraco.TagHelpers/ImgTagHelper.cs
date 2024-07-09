@@ -183,6 +183,7 @@ namespace Our.Umbraco.TagHelpers
             var jsLazyLoad = !_globalSettings.OurImg.UseNativeLazyLoading && !AboveTheFold;
             var style = ImgStyle;
             var hasLqip = _globalSettings.OurImg.LazyLoadPlaceholder.Equals(ImagePlaceholderType.LowQualityImage);
+            var useWebP = _globalSettings.OurImg.UseWebP.Equals(true);
 
             if (MediaItem is not null)
             {
@@ -359,7 +360,7 @@ namespace Our.Umbraco.TagHelpers
 
             // Only render a WebP alternative if the image is a JPEG or PNG
             var imageFormat = MediaItem != null ? Path.GetExtension(MediaItem.Url()) : Path.GetExtension(FileSource)?.ToLower();
-            var renderWebP = imageFormat == ".jpg" || imageFormat == ".jpeg" || imageFormat == ".png";
+            var renderWebP = useWebP && (imageFormat == ".jpg" || imageFormat == ".jpeg" || imageFormat == ".png");
 
             if (imageSizes?.Any() == true)
             {
