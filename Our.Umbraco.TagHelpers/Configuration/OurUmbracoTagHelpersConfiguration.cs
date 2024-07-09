@@ -6,7 +6,7 @@ namespace Our.Umbraco.TagHelpers.Configuration
     {
         public InlineSvgTagHelperConfiguration OurSVG { get; set; } = new InlineSvgTagHelperConfiguration();
         public ImgTagHelperConfiguration OurImg { get; set; } = new ImgTagHelperConfiguration();
-
+    
         public SelfHostTagHelperConfiguration OurSelfHost { get; set; } = new SelfHostTagHelperConfiguration();
     }
 
@@ -50,6 +50,11 @@ namespace Our.Umbraco.TagHelpers.Configuration
         /// The property alias of the media type containing the alternative text value.
         /// </summary>
         public string AlternativeTextMediaTypePropertyAlias { get; set; } = "alternativeText";
+
+        /// <summary>
+        /// Whether images should be served with WebP sources. Defaults to true.
+        /// </summary>
+        public bool UseWebP { get; set; } = true;
     }
     public class MediaQuerySizes
     {
