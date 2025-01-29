@@ -333,7 +333,9 @@ If you add an attribute of `use-default-styles`, it will render the link fixed t
 Perhaps you have changed your umbraco path to something different, you can use the `edit-url` attribute to change the umbraco edit content url:
 
 ```html
-<our-edit-link edit-url="/mysecretumbracopath#/content/content/edit/">Edit</our-edit-link>
+<our-edit-link edit-url="/mysecretumbracopath#/content/content/edit/"
+  >Edit</our-edit-link
+>
 ```
 
 ### Open in a new tab
@@ -527,11 +529,17 @@ Properties appended with s, m, l, xl & xxl translate to screen widths defined by
 - `height--desktop-xlarge` - Image height for extra large desktop screens. Use in conjunction with the `width--desktop-xlarge` property.
 - `height--desktop-xxlarge` - Image height for extra extra large desktop screens. Use in conjunction with the `width--desktop-xxlarge` property.
 - `cropalias` - Crop alias to be used by default.
-- `cropalias--s` - Crop alias to be used on small screens.
-- `cropalias--m` - Crop alias to be used on medium screens.
-- `cropalias--l` - Crop alias to be used on large screens.
-- `cropalias--xl` - Crop alias to be used on extra large screens.
-- `cropalias--xxl` - Crop alias to be used on extra extra large screens.
+- `cropalias--mobile-small` - Crop alias to be used on small mobile screens.
+- `cropalias--mobile` - Crop alias to be used on mobile screens.
+- `cropalias--mobile-large` - Crop alias to be used on large mobile screens.
+- `cropalias--tablet-small` - Crop alias to be used on small tablet screens.
+- `cropalias--tablet` - Crop alias to be used on tablet screens.
+- `cropalias--tablet-large` - Crop alias to be used on large tablet screens.
+- `cropalias--desktop-small` - Crop alias to be used on small desktop screens.
+- `cropalias--desktop` - Crop alias to be used on desktop screens.
+- `cropalias--desktop-large` - Crop alias to be used on large desktop screens.
+- `cropalias--desktop-xlarge` - Crop alias to be used on extra large desktop screens.
+- `cropalias--desktop-xxlarge` - Crop alias to be used on extra extra large desktop screens.
 
 ### Global settings via appsettings.json
 
@@ -621,7 +629,7 @@ This will produce an `<img>` tag with:
 #### Example 4
 
 ```cshtml
-<our-img media-item="Model.Image" width="200" width--s="400" width--m="600" cropalias="mobile" cropalias--m="desktop" />
+<our-img media-item="Model.Image" width="200" width--s="400" width--m="600" cropalias="mobile" cropalias--desktop="desktop" />
 ```
 
 **Output:**
@@ -635,9 +643,11 @@ This will produce an `<img>` tag with:
 ```
 
 ## `our-self-host`
+
 This is a tag helper attribute that can be applied to any element using a `src` or `href` attribute in the razor template or partial. It will automatically download and self hosting of third party assets, like javascript, css or images. This was written by Soren Kottal for 24Days.in Umbraco Advent calendar 2022 article - https://24days.in/umbraco-cms/2022/static-assets-taghelper/
 
 ### Simple Example
+
 ```cshtml
 <script src="https://unpkg.com/alpinejs@3.10.5/dist/cdn.min.js" our-self-host>
 ```
@@ -645,22 +655,29 @@ This is a tag helper attribute that can be applied to any element using a `src` 
 This will download the linked file to your local filesystem, and swap out the src attribute with a reference to the now locally hosted file.
 
 ### Folder location for downloaded files
+
 By default the files will be saved in `/assets/`, and keep the folder path of the url. The root folder can be configured in appsettings.json, by adding a value at `Our.Umbraco.TagHelpers:OurSelfHost:RootFolder` specifying the desired rootfolder. The default value is `/assets/`.
 
 You can further divide the files into folders, by adding a `folder` attribute to the script tag, eg:
+
 ```cshtml
 <script src="https://unpkg.com/alpinejs@3.10.5/dist/cdn.min.js" our-self-host folder="libraries">
 ```
+
 This will save the file in `/assets/libraries/alpinejs@3.10.5/dist/cdn.min.js`.
 
 ### Handling extensionless urls to files
+
 In case the url is extensionless, like `https://unpkg.com/alpinejs`, you can add an `ext` attribute, for specifying the extension of the file, eg:
+
 ```cshtml
 <script src="https://unpkg.com/alpinejs" our-self-host ext="js">
 ```
+
 This will save the file as `/assets/alpinejs.js`, enabling eg. MIME types for .js files.
 
 ### Caching
+
 The file is saved once, and never updated unless you manually remove the file. The lookup for the local file is cached in the Runtime Cache.
 
 ## Video 📺
