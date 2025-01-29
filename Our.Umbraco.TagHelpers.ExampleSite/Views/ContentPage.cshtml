@@ -1,14 +1,18 @@
-@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<ContentPage>
+﻿@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<ContentPage>
 
 @{
     Layout = "Layout.cshtml";
 
-	// var altText = Model.ImageTest.Value<string>("altText");
+	// var altText = Model.Image.Value<string>("altText");
+
+	var crop = !string.IsNullOrWhiteSpace(Model.Crop) ? Model.Crop : string.Empty;
 }
 
 <main id="maincontent" class="page page--content">
-	<our-img
-        media-item="@Model.ImageTest"
+	<h1>@crop</h1>
+	@* Sizes *@
+	@* <our-img
+        media-item="@Model.Image"
         class="image"
 		abovethefold="true"
 
@@ -47,5 +51,14 @@
 
 		width--desktop-xxlarge="2560"
 		height--desktop-xxlarge="1280"
+    /> *@
+
+	@* Crops *@
+	<our-img
+        media-item="@Model.Image"
+        class="image"
+		abovethefold="true"
+		width="640"
+		cropalias="@crop"
     />
 </main>
