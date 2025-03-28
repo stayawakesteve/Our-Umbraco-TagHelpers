@@ -1,18 +1,20 @@
 ﻿@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<ContentPage>
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 
 @{
-    Layout = "Layout.cshtml";
+	Layout = "Layout.cshtml";
 
 	// var altText = Model.Image.Value<string>("altText");
 
-	var crop = !string.IsNullOrWhiteSpace(Model.Crop) ? Model.Crop : string.Empty;
+	@* var crop = !string.IsNullOrWhiteSpace(Model.Crop) ? Model.Crop : string.Empty; *@
+
+	var src = Model.Image.GetCropUrl(560,370);
 }
 
 <main id="maincontent" class="page page--content">
-	<h1>@crop</h1>
 	@* Sizes *@
-	@* <our-img
-        media-item="@Model.Image"
+	<our-img
+		media-item="@Model.Image"
         class="image"
 		abovethefold="true"
 
@@ -51,14 +53,14 @@
 
 		width--desktop-xxlarge="2560"
 		height--desktop-xxlarge="1280"
-    /> *@
+    />
 
 	@* Crops *@
-	<our-img
+	@* <our-img
         media-item="@Model.Image"
         class="image"
 		abovethefold="true"
 		width="640"
 		cropalias="@crop"
-    />
+    /> *@
 </main>
