@@ -27,16 +27,10 @@ namespace Our.Umbraco.TagHelpers
     /// & image quality (for non-media items, but still on the file system)
     /// </summary>
     [HtmlTargetElement("our-img")]
-    public class ImgTagHelper : TagHelper
+    public class ImgTagHelper(IOptions<OurUmbracoTagHelpersConfiguration> globalSettings, IMediaService mediaService) : TagHelper
     {
-        private OurUmbracoTagHelpersConfiguration _globalSettings;
-        private IMediaService _mediaService;
-
-        public ImgTagHelper(IOptions<OurUmbracoTagHelpersConfiguration> globalSettings, IMediaService mediaService)
-        {
-            _globalSettings = globalSettings.Value;
-            _mediaService = mediaService;
-        }
+        private OurUmbracoTagHelpersConfiguration _globalSettings = globalSettings.Value;
+        private IMediaService _mediaService = mediaService;
 
         /// <summary>
         /// A filepath to an image on disk such as /assets/image.jpg, external URL's can also be used with limited functionality
@@ -128,40 +122,40 @@ namespace Our.Umbraco.TagHelpers
         public int ImgHeightDesktopExtraExtraLarge { get; set; }
 
         [HtmlAttributeName("cropalias")]
-        public string ImgCropAlias { get; set; }
+        public string? ImgCropAlias { get; set; }
 
         [HtmlAttributeName("cropalias--mobile-small")]
-        public string ImgCropAliasMobileSmall { get; set; }
+        public string? ImgCropAliasMobileSmall { get; set; }
 
         [HtmlAttributeName("cropalias--mobile")]
-        public string ImgCropAliasMobile { get; set; }
+        public string? ImgCropAliasMobile { get; set; }
 
         [HtmlAttributeName("cropalias--mobile-large")]
-        public string ImgCropAliasMobileLarge { get; set; }
+        public string? ImgCropAliasMobileLarge { get; set; }
 
         [HtmlAttributeName("cropalias--tablet-small")]
-        public string ImgCropAliasTabletSmall { get; set; }
+        public string? ImgCropAliasTabletSmall { get; set; }
 
         [HtmlAttributeName("cropalias--tablet")]
-        public string ImgCropAliasTablet { get; set; }
+        public string? ImgCropAliasTablet { get; set; }
 
         [HtmlAttributeName("cropalias--tablet-large")]
-        public string ImgCropAliasTabletLarge { get; set; }
+        public string? ImgCropAliasTabletLarge { get; set; }
 
         [HtmlAttributeName("cropalias--desktop-small")]
-        public string ImgCropAliasDesktopSmall { get; set; }
+        public string? ImgCropAliasDesktopSmall { get; set; }
 
         [HtmlAttributeName("cropalias--desktop")]
-        public string ImgCropAliasDesktop { get; set; }
+        public string? ImgCropAliasDesktop { get; set; }
 
         [HtmlAttributeName("cropalias--desktop-large")]
-        public string ImgCropAliasDesktopLarge { get; set; }
+        public string? ImgCropAliasDesktopLarge { get; set; }
 
         [HtmlAttributeName("cropalias--desktop-xlarge")]
-        public string ImgCropAliasDesktopExtraLarge { get; set; }
+        public string? ImgCropAliasDesktopExtraLarge { get; set; }
 
         [HtmlAttributeName("cropalias--desktop-xxlarge")]
-        public string ImgCropAliasDesktopExtraExtraLarge { get; set; }
+        public string? ImgCropAliasDesktopExtraExtraLarge { get; set; }
 
         [HtmlAttributeName("style")]
         public string? ImgStyle { get; set; }
@@ -172,17 +166,17 @@ namespace Our.Umbraco.TagHelpers
         [HtmlAttributeName("abovethefold")]
         public bool AboveTheFold { get; set; }
 
-        protected HttpRequest Request => ViewContext.HttpContext.Request;
+        protected HttpRequest? Request => ViewContext?.HttpContext?.Request;
 
         [ViewContext]
-        public ViewContext ViewContext { get; set; }
+        public ViewContext? ViewContext { get; set; }
 
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
             output.TagName = "img";
 
             #region Ensure that the file source doesn't produce a URL using the file protocol
-            var baseUrl = $"{ViewContext.HttpContext.Request.Scheme}://{ViewContext.HttpContext.Request.Host}";
+            var baseUrl = $"{ViewContext?.HttpContext.Request.Scheme}://{ViewContext?.HttpContext.Request.Host}";
 
             if (FileSource != null && FileSource.StartsWith("http") == false)
             {
@@ -556,15 +550,22 @@ namespace Our.Umbraco.TagHelpers
             else
             {
                 if (!Uri.TryCreate(url, UriKind.Absolute, out uri!))
-                    uri = new Uri(new Uri(Request.GetDisplayUrl()), url);
+                {
+                    if (Request != null)
+                    {
+                        uri = new Uri(new Uri(Request.GetDisplayUrl()), url);
+                    }
+                }
             }
 
-            if (uri == null) return url;
+            if (uri == null) {
+                return url;
+            }
 
             var baseUri = uri.GetComponents(UriComponents.Scheme | UriComponents.Host | UriComponents.Port | UriComponents.Path, UriFormat.UriEscaped);
             var query = QueryHelpers.ParseQuery(uri.Query);
 
-            var items = query.SelectMany(x => x.Value, (col, value) => new KeyValuePair<string, string>(col.Key, value)).ToList();
+            var items = query.SelectMany(x => x.Value, (col, value) => new KeyValuePair<string, string>(col.Key, value ?? string.Empty)).ToList();
 
             items.RemoveAll(x => x.Key == key);
 
