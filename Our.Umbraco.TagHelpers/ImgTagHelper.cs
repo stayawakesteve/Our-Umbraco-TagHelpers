@@ -181,6 +181,15 @@ namespace Our.Umbraco.TagHelpers
         {
             output.TagName = "img";
 
+            #region Ensure that the file source doesn't produce a URL using the file protocol
+            var baseUrl = $"{ViewContext.HttpContext.Request.Scheme}://{ViewContext.HttpContext.Request.Host}";
+
+            if (FileSource != null && FileSource.StartsWith("http") == false)
+            {
+                FileSource = baseUrl + FileSource;
+            }
+            #endregion
+
             #region Can only use media-item OR src, don't render anything if both are provided
             // Can't use both properties together
             if (string.IsNullOrWhiteSpace(FileSource) == false && MediaItem is not null)
@@ -223,7 +232,7 @@ namespace Our.Umbraco.TagHelpers
                     }
                     var cropWidth = MediaItem.LocalCrops.GetCrop(ImgCropAlias).Width;
                     var cropHeight = MediaItem.LocalCrops.GetCrop(ImgCropAlias).Height;
-                    height = (cropHeight / cropWidth) * width;
+                    height = cropHeight / cropWidth * width;
                 }
                 else
                 {
@@ -236,7 +245,7 @@ namespace Our.Umbraco.TagHelpers
                             placeholderImgSrc = MediaItem.GetCropUrl(width: (int)ImgWidth, height: (int)ImgHeight, quality: _globalSettings.OurImg.LazyLoadPlaceholderLowQualityImageQuality);
                         }
                         width = ImgWidth;
-                        height = ImgHeight != 0 ? ImgHeight : (originalHeight / originalWidth) * width;
+                        height = ImgHeight != 0 ? ImgHeight : originalHeight / originalWidth * width;
                     }
                     else
                     {
@@ -247,7 +256,7 @@ namespace Our.Umbraco.TagHelpers
                             // Generate a low quality placeholder image if configured to do so
                             placeholderImgSrc = MediaItem.GetCropUrl(width: (int)width, quality: _globalSettings.OurImg.LazyLoadPlaceholderLowQualityImageQuality);
                         }
-                        height = (originalHeight / originalWidth) * width;
+                        height = originalHeight / originalWidth * width;
                     }
                 }
 
@@ -424,7 +433,7 @@ namespace Our.Umbraco.TagHelpers
                             {
                                 var cropWidth = MediaItem.LocalCrops.GetCrop(cropAlias).Width;
                                 var cropHeight = MediaItem.LocalCrops.GetCrop(cropAlias).Height;
-                                sourceHeight = (StringUtils.GetDouble(cropHeight) / StringUtils.GetDouble(cropWidth)) * size.ImageWidth;
+                                sourceHeight = StringUtils.GetDouble(cropHeight) / StringUtils.GetDouble(cropWidth) * size.ImageWidth;
 
                                 sb.AppendLine($"<source {(jsLazyLoad ? "data-" : "")}srcset=\"{MediaItem.GetCropUrl(width: size.ImageWidth, cropAlias: cropAlias, furtherOptions: "&format=webp")}\" {(_globalSettings.OurImg.MobileFirst ? $"{(minWidth > 0 ? $"media=\"(min-width: {minWidth}px)\"" : "" )}" : $"{(minWidth > 0 ? $"media=\"(max-width: {minWidth - 1}px)\"" : "" )}")} type=\"image/webp\" />");
                             }
@@ -443,7 +452,7 @@ namespace Our.Umbraco.TagHelpers
 
                         if (!string.IsNullOrEmpty(FileSource) && ImgWidth > 0 && ImgHeight > 0)
                         {
-                            sourceHeight = size.ImageHeight > 0 ? size.ImageHeight : (ImgHeight / ImgWidth) * size.ImageWidth;
+                            sourceHeight = size.ImageHeight > 0 ? size.ImageHeight : ImgHeight / ImgWidth * size.ImageWidth;
                             var sourceUrl = AddQueryToUrl(FileSource, "width", size.ImageWidth.ToString()) + "&height=" + size.ImageHeight + "&format=webp";
                             sb.AppendLine($"<source {(jsLazyLoad ? "data-" : "")}srcset=\"{sourceUrl}\" {(_globalSettings.OurImg.MobileFirst ? $"{(minWidth > 0 ? $"media=\"(min-width: {minWidth}px)\"" : "" )}" : $"{(minWidth > 0 ? $"media=\"(max-width: {minWidth - 1}px)\"" : "" )}")} type=\"image/webp\" />");
                         }
@@ -485,7 +494,7 @@ namespace Our.Umbraco.TagHelpers
                         {
                             var cropWidth = MediaItem.LocalCrops.GetCrop(cropAlias).Width;
                             var cropHeight = MediaItem.LocalCrops.GetCrop(cropAlias).Height;
-                            sourceHeight = (StringUtils.GetDouble(cropHeight) / StringUtils.GetDouble(cropWidth)) * size.ImageWidth;
+                            sourceHeight = StringUtils.GetDouble(cropHeight) / StringUtils.GetDouble(cropWidth) * size.ImageWidth;
 
                             sb.AppendLine($"<source {(jsLazyLoad ? "data-" : "")}srcset=\"{MediaItem.GetCropUrl(width: size.ImageWidth, cropAlias: cropAlias)}\" {(_globalSettings.OurImg.MobileFirst ? $"{(minWidth > 0 ? $"media=\"(min-width: {minWidth}px)\"" : "" )}" : $"{(minWidth > 0 ? $"media=\"(max-width: {minWidth - 1}px)\"" : "" )}")} />");
                         }
@@ -504,7 +513,7 @@ namespace Our.Umbraco.TagHelpers
 
                     if (!string.IsNullOrEmpty(FileSource) && ImgWidth > 0 && ImgHeight > 0)
                     {
-                        sourceHeight = size.ImageHeight > 0 ? size.ImageHeight : (ImgHeight / ImgWidth) * size.ImageWidth;
+                        sourceHeight = size.ImageHeight > 0 ? size.ImageHeight : ImgHeight / ImgWidth * size.ImageWidth;
                         var sourceUrl = AddQueryToUrl(FileSource, "width", size.ImageWidth.ToString()) + "&height=" + size.ImageHeight;
                         sb.AppendLine($"<source {(jsLazyLoad ? "data-" : "")}srcset=\"{sourceUrl}\" {(_globalSettings.OurImg.MobileFirst ? $"{(minWidth > 0 ? $"media=\"(min-width: {minWidth}px)\"" : "" )}" : $"{(minWidth > 0 ? $"media=\"(max-width: {minWidth - 1}px)\"" : "" )}")} />");
                     }
