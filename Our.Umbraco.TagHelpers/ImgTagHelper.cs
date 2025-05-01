@@ -18,6 +18,7 @@ using Umbraco.Cms.Core.Models;
 using Umbraco.Cms.Core.Models.PublishedContent;
 using Umbraco.Cms.Core.Services;
 using Umbraco.Extensions;
+using static Umbraco.Cms.Core.Constants;
 
 namespace Our.Umbraco.TagHelpers
 {
@@ -209,9 +210,9 @@ namespace Our.Umbraco.TagHelpers
             if (MediaItem is not null)
             {
                 #region Opting to use a media-item as the source image
-                var media = _mediaService.GetById(MediaItem.Id); // Get the media object from the media library service
-                var originalWidth = media.GetValue<double>("umbracoWidth"); // Determine the width from the originally uploaded image
-                var originalHeight = media.GetValue<double>("umbracoHeight"); // Determine the height from the originally uploaded image
+                var originalWidth = MediaItem.Value<int>(Conventions.Media.Width);
+                var originalHeight = MediaItem.Value<int>(Conventions.Media.Height);
+
                 width = ImgWidth > 0 ? ImgWidth : originalWidth; // If the element wasn't provided with a width property, use the width from the media object instead
 
                 if (!string.IsNullOrEmpty(ImgCropAlias))
@@ -250,7 +251,11 @@ namespace Our.Umbraco.TagHelpers
                             // Generate a low quality placeholder image if configured to do so
                             placeholderImgSrc = MediaItem.GetCropUrl(width: (int)width, quality: _globalSettings.OurImg.LazyLoadPlaceholderLowQualityImageQuality);
                         }
-                        height = originalHeight / originalWidth * width;
+
+                        if (originalHeight != 0)
+                        {
+                            height = originalHeight / originalWidth * width;
+                        }
                     }
                 }
 
