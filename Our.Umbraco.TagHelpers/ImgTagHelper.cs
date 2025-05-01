@@ -16,7 +16,6 @@ using System.Linq;
 using System.Text;
 using Umbraco.Cms.Core.Models;
 using Umbraco.Cms.Core.Models.PublishedContent;
-using Umbraco.Cms.Core.Services;
 using Umbraco.Extensions;
 using static Umbraco.Cms.Core.Constants;
 
@@ -28,10 +27,9 @@ namespace Our.Umbraco.TagHelpers
     /// & image quality (for non-media items, but still on the file system)
     /// </summary>
     [HtmlTargetElement("our-img")]
-    public class ImgTagHelper(IOptions<OurUmbracoTagHelpersConfiguration> globalSettings, IMediaService mediaService) : TagHelper
+    public class ImgTagHelper(IOptions<OurUmbracoTagHelpersConfiguration> globalSettings) : TagHelper
     {
         private OurUmbracoTagHelpersConfiguration _globalSettings = globalSettings.Value;
-        private IMediaService _mediaService = mediaService;
 
         /// <summary>
         /// A filepath to an image on disk such as /assets/image.jpg, external URL's can also be used with limited functionality
