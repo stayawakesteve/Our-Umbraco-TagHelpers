@@ -53,13 +53,6 @@
 
 		width--desktop-xxlarge="2560"
 		height--desktop-xxlarge="1280"
-
-		cropalias--mobile="mobile"
-		cropalias--tablet="tablet"
-		cropalias--desktop="desktop"
-		cropalias--desktop-large="desktop-l"
-		cropalias--desktop-xlarge="desktop-xl"
-		cropalias--desktop-xxlarge="desktop-xxl"
     />
 
 	@* Crops *@
@@ -69,5 +62,18 @@
 		abovethefold="true"
 		width="640"
 		cropalias="@crop"
+    /> *@
+
+	@* Crop aliases *@
+	@* <our-img
+		media-item="@Model.Image"
+        class="image"
+		abovethefold="true"
+        cropalias--mobile="mobile"
+		cropalias--tablet="tablet"
+		cropalias--desktop="desktop"
+		cropalias--desktop-large="desktop-l"
+		cropalias--desktop-xlarge="desktop-xl"
+		cropalias--desktop-xxlarge="desktop-xxl"
     /> *@
 </main>
