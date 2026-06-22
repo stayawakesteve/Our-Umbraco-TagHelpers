@@ -422,8 +422,6 @@ namespace Our.Umbraco.TagHelpers
                             _ => 0
                         };
 
-                        double sourceHeight = 0;
-
                         if (MediaItem != null)
                         {
                             #region Configure crops which can be set at variant level or inherit from the crop alias defined on the main img element itself. If neither have a crop alias, then don't use crops.
@@ -440,7 +438,6 @@ namespace Our.Umbraco.TagHelpers
                                 var cropHeight = MediaItem.LocalCrops.GetCrop(cropAlias).Height;
                                 if (size.ImageWidth <= cropWidth)
                                 {
-                                    sourceHeight = StringUtils.GetDouble(cropHeight) / StringUtils.GetDouble(cropWidth) * size.ImageWidth;
                                     sb.AppendLine($"<source {(jsLazyLoad ? "data-" : "")}srcset=\"{MediaItem.GetCropUrl(width: size.ImageWidth, cropAlias: cropAlias, furtherOptions: "&format=webp")}\" {(_globalSettings.OurImg.MobileFirst ? $"{(minWidth > 0 ? $"media=\"(min-width: {minWidth}px)\"" : "" )}" : $"{(minWidth > 0 ? $"media=\"(max-width: {minWidth - 1}px)\"" : "" )}")} type=\"image/webp\" />");
                                 }
                             }
@@ -463,7 +460,6 @@ namespace Our.Umbraco.TagHelpers
 
                         if (!string.IsNullOrEmpty(FileSource) && ImgWidth > 0 && ImgHeight > 0)
                         {
-                            sourceHeight = size.ImageHeight > 0 ? size.ImageHeight : ImgHeight / ImgWidth * size.ImageWidth;
                             var sourceUrl = AddQueryToUrl(FileSource, "width", size.ImageWidth.ToString()) + "&height=" + size.ImageHeight + "&format=webp";
                             sb.AppendLine($"<source {(jsLazyLoad ? "data-" : "")}srcset=\"{sourceUrl}\" {(_globalSettings.OurImg.MobileFirst ? $"{(minWidth > 0 ? $"media=\"(min-width: {minWidth}px)\"" : "" )}" : $"{(minWidth > 0 ? $"media=\"(max-width: {minWidth - 1}px)\"" : "" )}")} type=\"image/webp\" />");
                         }
@@ -489,8 +485,6 @@ namespace Our.Umbraco.TagHelpers
                         _ => 0
                     };
 
-                    double sourceHeight = 0;
-
                     if (MediaItem != null)
                     {
                         #region Configure crops which can be set at variant level or inherit from the crop alias defined on the main img element itself. If neither have a crop alias, then don't use crops.
@@ -507,7 +501,6 @@ namespace Our.Umbraco.TagHelpers
                             var cropHeight = MediaItem.LocalCrops.GetCrop(cropAlias).Height;
                             if (size.ImageWidth <= cropWidth)
                             {
-                                sourceHeight = StringUtils.GetDouble(cropHeight) / StringUtils.GetDouble(cropWidth) * size.ImageWidth;
                                 sb.AppendLine($"<source {(jsLazyLoad ? "data-" : "")}srcset=\"{MediaItem.GetCropUrl(width: size.ImageWidth, cropAlias: cropAlias)}\" {(_globalSettings.OurImg.MobileFirst ? $"{(minWidth > 0 ? $"media=\"(min-width: {minWidth}px)\"" : "" )}" : $"{(minWidth > 0 ? $"media=\"(max-width: {minWidth - 1}px)\"" : "" )}")} />");
                             }
                         }
@@ -530,7 +523,6 @@ namespace Our.Umbraco.TagHelpers
 
                     if (!string.IsNullOrEmpty(FileSource) && ImgWidth > 0 && ImgHeight > 0)
                     {
-                        sourceHeight = size.ImageHeight > 0 ? size.ImageHeight : ImgHeight / ImgWidth * size.ImageWidth;
                         var sourceUrl = AddQueryToUrl(FileSource, "width", size.ImageWidth.ToString()) + "&height=" + size.ImageHeight;
                         sb.AppendLine($"<source {(jsLazyLoad ? "data-" : "")}srcset=\"{sourceUrl}\" {(_globalSettings.OurImg.MobileFirst ? $"{(minWidth > 0 ? $"media=\"(min-width: {minWidth}px)\"" : "" )}" : $"{(minWidth > 0 ? $"media=\"(max-width: {minWidth - 1}px)\"" : "" )}")} />");
                     }
