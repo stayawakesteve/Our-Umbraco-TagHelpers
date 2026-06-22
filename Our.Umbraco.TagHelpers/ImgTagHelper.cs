@@ -229,24 +229,24 @@ namespace Our.Umbraco.TagHelpers
                         // Generate a low quality placeholder image if configured to do so
                         placeholderImgSrc = MediaItem.GetCropUrl(width: (int)width, cropAlias: ImgCropAlias, quality: _globalSettings.OurImg.LazyLoadPlaceholderLowQualityImageQuality);
                     }
-                    height = cropHeight / cropWidth * width;
+                    height = StringUtils.GetDouble(cropHeight) / StringUtils.GetDouble(cropWidth) * width;
                 }
                 else
                 {
                     if (ImgHeight > 0)
                     {
-                        // If the width was capped to avoid upscaling, scale the height by the same ratio so the requested aspect ratio is preserved (instead of upscaling the height).
-                        var targetHeight = ImgWidth > 0 && width < ImgWidth
-                            ? (int)Math.Round(ImgHeight * (width / ImgWidth))
-                            : ImgHeight;
+                        // Scale the requested width & height down together so neither exceeds the source image, preserving the requested aspect ratio instead of upscaling either dimension.
+                        var requestedWidth = ImgWidth > 0 ? ImgWidth : (int)width;
+                        (var fitWidth, var fitHeight) = GetNonUpscaledSize(requestedWidth, ImgHeight, originalWidth, originalHeight);
+                        width = fitWidth;
+                        height = fitHeight;
 
-                        imgSrc = MediaItem.GetCropUrl(width: (int)width, height: targetHeight);
+                        imgSrc = MediaItem.GetCropUrl(width: (int)width, height: (int)height);
                         if (hasLqip)
                         {
                             // Generate a low quality placeholder image if configured to do so
-                            placeholderImgSrc = MediaItem.GetCropUrl(width: (int)width, height: targetHeight, quality: _globalSettings.OurImg.LazyLoadPlaceholderLowQualityImageQuality);
+                            placeholderImgSrc = MediaItem.GetCropUrl(width: (int)width, height: (int)height, quality: _globalSettings.OurImg.LazyLoadPlaceholderLowQualityImageQuality);
                         }
-                        height = targetHeight;
                     }
                     else
                     {
@@ -450,7 +450,8 @@ namespace Our.Umbraco.TagHelpers
                                 {
                                     if (size.ImageHeight > 0)
                                     {
-                                        sb.AppendLine($"<source {(jsLazyLoad ? "data-" : "")}srcset=\"{MediaItem.GetCropUrl(width: size.ImageWidth, height: size.ImageHeight, furtherOptions: "&format=webp")}\" {(_globalSettings.OurImg.MobileFirst ? $"{(minWidth > 0 ? $"media=\"(min-width: {minWidth}px)\"" : "" )}" : $"{(minWidth > 0 ? $"media=\"(max-width: {minWidth - 1}px)\"" : "" )}")} type=\"image/webp\" />");
+                                        (var variantWidth, var variantHeight) = GetNonUpscaledSize(size.ImageWidth, size.ImageHeight, originalWidth, originalHeight);
+                                        sb.AppendLine($"<source {(jsLazyLoad ? "data-" : "")}srcset=\"{MediaItem.GetCropUrl(width: variantWidth, height: variantHeight, furtherOptions: "&format=webp")}\" {(_globalSettings.OurImg.MobileFirst ? $"{(minWidth > 0 ? $"media=\"(min-width: {minWidth}px)\"" : "" )}" : $"{(minWidth > 0 ? $"media=\"(max-width: {minWidth - 1}px)\"" : "" )}")} type=\"image/webp\" />");
                                     }
                                     else
                                     {
@@ -516,7 +517,8 @@ namespace Our.Umbraco.TagHelpers
                             {
                                 if (size.ImageHeight > 0)
                                 {
-                                    sb.AppendLine($"<source {(jsLazyLoad ? "data-" : "")}srcset=\"{MediaItem.GetCropUrl(width: size.ImageWidth, height: size.ImageHeight)}\" {(_globalSettings.OurImg.MobileFirst ? $"{(minWidth > 0 ? $"media=\"(min-width: {minWidth}px)\"" : "" )}" : $"{(minWidth > 0 ? $"media=\"(max-width: {minWidth - 1}px)\"" : "" )}")} />");
+                                    (var variantWidth, var variantHeight) = GetNonUpscaledSize(size.ImageWidth, size.ImageHeight, originalWidth, originalHeight);
+                                    sb.AppendLine($"<source {(jsLazyLoad ? "data-" : "")}srcset=\"{MediaItem.GetCropUrl(width: variantWidth, height: variantHeight)}\" {(_globalSettings.OurImg.MobileFirst ? $"{(minWidth > 0 ? $"media=\"(min-width: {minWidth}px)\"" : "" )}" : $"{(minWidth > 0 ? $"media=\"(max-width: {minWidth - 1}px)\"" : "" )}")} />");
                                 }
                                 else
                                 {
@@ -541,6 +543,27 @@ namespace Our.Umbraco.TagHelpers
         }
 
         #region Private Methods
+        /// <summary>
+        /// Scales a requested width &amp; height down uniformly so neither dimension exceeds the source image, preserving the requested aspect ratio.
+        /// This prevents the image processor from upscaling. A dimension is only constrained when both it and its original counterpart are known (> 0),
+        /// so missing media dimensions (e.g. 0) simply leave that axis unconstrained.
+        /// </summary>
+        private static (int Width, int Height) GetNonUpscaledSize(int requestedWidth, int requestedHeight, int originalWidth, int originalHeight)
+        {
+            var scale = 1d;
+
+            if (requestedWidth > 0 && originalWidth > 0 && requestedWidth > originalWidth)
+            {
+                scale = Math.Min(scale, (double)originalWidth / requestedWidth);
+            }
+
+            if (requestedHeight > 0 && originalHeight > 0 && requestedHeight > originalHeight)
+            {
+                scale = Math.Min(scale, (double)originalHeight / requestedHeight);
+            }
+
+            return ((int)Math.Round(requestedWidth * scale), (int)Math.Round(requestedHeight * scale));
+        }
         private string GetImageAltText(IPublishedContent image)
         {
             try
