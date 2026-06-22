@@ -235,13 +235,18 @@ namespace Our.Umbraco.TagHelpers
                 {
                     if (ImgHeight > 0)
                     {
-                        imgSrc = MediaItem.GetCropUrl(width: (int)width, height: (int)ImgHeight);
+                        // If the width was capped to avoid upscaling, scale the height by the same ratio so the requested aspect ratio is preserved (instead of upscaling the height).
+                        var targetHeight = ImgWidth > 0 && width < ImgWidth
+                            ? (int)Math.Round(ImgHeight * (width / ImgWidth))
+                            : ImgHeight;
+
+                        imgSrc = MediaItem.GetCropUrl(width: (int)width, height: targetHeight);
                         if (hasLqip)
                         {
                             // Generate a low quality placeholder image if configured to do so
-                            placeholderImgSrc = MediaItem.GetCropUrl(width: (int)width, height: (int)ImgHeight, quality: _globalSettings.OurImg.LazyLoadPlaceholderLowQualityImageQuality);
+                            placeholderImgSrc = MediaItem.GetCropUrl(width: (int)width, height: targetHeight, quality: _globalSettings.OurImg.LazyLoadPlaceholderLowQualityImageQuality);
                         }
-                        height = ImgHeight != 0 ? ImgHeight : originalHeight / originalWidth * width;
+                        height = targetHeight;
                     }
                     else
                     {
